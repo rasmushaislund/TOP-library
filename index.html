@@ -33,13 +33,63 @@
         <p class="para-add-book">Add book to library</p>
       </div>
     </header>
+    <div class="modal" id="add-book-modal">
+      <img
+        class="card-close"
+        src="./img/close.svg"
+        alt="icon for closing book card"
+      />
+      <h3 class="modal-header">Add book information</h3>
+      <form action="#" method="post">
+        <ul>
+          <li>
+            <label for="book-title">Title</label
+            ><input id="book-title" type="text" />
+          </li>
+          <li>
+            <label for="book-author">Author</label
+            ><input id="book-author" type="text" />
+          </li>
+          <li>
+            <label for="book-pages">Pages</label
+            ><input id="book-pages" type="number" />
+          </li>
+          <div class="book-status-container">
+            <li>
+              <label for="book-status-not-read">Not read</label
+              ><input
+                id="book-status-not-read"
+                name="book-status"
+                type="radio"
+                checked="checked"
+              />
+            </li>
+            <li>
+              <label for="book-status-reading">Reading</label
+              ><input
+                id="book-status-reading"
+                name="book-status"
+                type="radio"
+              />
+            </li>
+            <li>
+              <label for="book-status-read">Read</label
+              ><input id="book-status-read" name="book-status" type="radio" />
+            </li>
+          </div>
+          <li>
+            <button class="add-book-modal-btn" type="button">+ Add book</button>
+          </li>
+        </ul>
+      </form>
+    </div>
     <main>
       <div class="bookshelf">
         <div class="card">
           <img
             class="card-close"
             src="./img/close.svg"
-            alt="icon for closing book card"
+            alt="icon for closing"
           />
           <p class="card-header card-header1">Title</p>
           <p class="card-text card-text1">The Hobbit</p>
