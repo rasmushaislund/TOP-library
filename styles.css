@@ -103,7 +103,7 @@ main {
 }
 
 .modal {
-  /* visibility: hidden; */
+  visibility: hidden;
   min-width: 255px;
   height: fit-content;
   padding: 5px 5px 20px 15px;
@@ -224,9 +224,10 @@ input[type='radio'] {
 }
 
 .add-book-modal-btn {
-  width: 75px;
+  width: fit-content;
   color: rgba(0, 0, 0, 1);
   padding: 5px 5px;
+  font-size: 1rem;
 }
 
 .book-status-btn:hover,
