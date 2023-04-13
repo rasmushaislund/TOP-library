@@ -36,23 +36,24 @@
     <div class="modal" id="add-book-modal">
       <img
         class="card-close"
+        id="modal-close"
         src="./img/close.svg"
         alt="icon for closing book card"
       />
-      <h3 class="modal-header">Add book information</h3>
+      <h3 class="modal-header">Enter book information</h3>
       <form action="#" method="post">
         <ul>
           <li>
             <label for="book-title">Title</label
-            ><input id="book-title" type="text" />
+            ><input id="book-title" type="text" required />
           </li>
           <li>
             <label for="book-author">Author</label
-            ><input id="book-author" type="text" />
+            ><input id="book-author" type="text" required />
           </li>
           <li>
             <label for="book-pages">Pages</label
-            ><input id="book-pages" type="number" />
+            ><input id="book-pages" type="number" required />
           </li>
           <div class="book-status-container">
             <li>
@@ -84,26 +85,7 @@
       </form>
     </div>
     <main>
-      <div class="bookshelf">
-        <div class="card">
-          <img
-            class="card-close"
-            src="./img/close.svg"
-            alt="icon for closing"
-          />
-          <p class="card-header card-header1">Title</p>
-          <p class="card-text card-text1">The Hobbit</p>
-          <p class="card-header card-header2">Author</p>
-          <p class="card-text card-text2">J.R.R. Tolkien</p>
-          <p class="card-header card-header3">Pages</p>
-          <p class="card-text card-text3">295</p>
-          <div class="book-status">
-            <button class="book-status-btn" type="button">Not read</button>
-            <button class="book-status-btn" type="button">Reading</button>
-            <button class="book-status-btn" type="button">Read</button>
-          </div>
-        </div>
-      </div>
+      <div class="bookshelf"></div>
     </main>
   </body>
 </html>
