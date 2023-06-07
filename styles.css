@@ -89,7 +89,8 @@ body {
   box-shadow: 0 0 5px 5px rgba(106, 106, 106, 0.7);
 }
 
-.para-add-book {
+.para-add-book,
+.footer {
   color: rgba(255, 255, 255, 1);
   background-color: rgba(0, 0, 0, 0.7);
   padding: 5px;
@@ -99,7 +100,7 @@ body {
 main {
   display: flex;
   width: 100%;
-  margin-top: 50px;
+  margin: 50px 0;
 }
 
 .modal {
@@ -233,4 +234,47 @@ input[type='radio'] {
 .add-book-modal-btn:hover {
   border: 1px solid rgba(0, 0, 0, 1);
   color: rgba(0, 0, 0, 1);
+}
+
+.not-read[data-status='red'],
+.reading[data-status='yellow'],
+.read[data-status='green'] {
+  background-color: rgba(255, 255, 255, 1);
+  border-color: rgba(0, 0, 0, 1);
+  color: rgba(0, 0, 0, 1);
+}
+
+.not-read[data-status='red'] {
+  background-color: #fc6c64;
+}
+
+.reading[data-status='yellow'] {
+  background-color: #fcfca4;
+}
+
+.read[data-status='green'] {
+  background-color: #bcecb4;
+}
+
+.footer {
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer p {
+  font-size: 1.1rem;
+}
+
+.para-footer {
+  font-family: 'Caveat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+a:link {
+  color: inherit;
+}
+
+a:visited {
+  color: rgba(255, 255, 255, 0.9);
 }
