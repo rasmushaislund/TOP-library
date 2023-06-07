@@ -1,8 +1,7 @@
 // START //
 
-// dom variables
+// GLobal DOM variables
 const openModalBtn = document.querySelector('.btn-add-book');
-
 const modal = document.querySelector('.modal');
 const closeModalIcon = document.querySelector('#modal-close');
 const titleInput = document.querySelector('#book-title');
@@ -12,37 +11,22 @@ const notReadRadio = document.querySelector('#book-status-not-read');
 const readingRadio = document.querySelector('#book-status-reading');
 const readRadio = document.querySelector('#book-status-read');
 const addBookBtn = document.querySelector('.add-book-modal-btn');
-
 const bookshelf = document.querySelector('.bookshelf');
-const removeBookIcon = document.querySelector('.delete-book');
-const bookNotReadBtn = document.querySelector('#not-read');
-const bookReadingBtn = document.querySelector('#reading');
-const bookReadBtn = document.querySelector('#read');
-const bookAllStatus = document.querySelectorAll('.book-status-btn');
 
-// non-dom variables
+// Global Non-DOM variables
 let myLibrary = [];
+const notReadStatus = 'Not read';
+const readingStatus = 'Reading';
+const readStatus = 'Read';
 
-const RED = '#FC6C64';
-const YELLOW = '#FCFCA4';
-const GREEN = '#BCECB4';
-
-const btnBackgroundColor = 'rgba(255, 255, 255, 1)';
-const btnBorderColor = 'black';
-const btnTextColor = 'black';
-const btnBorderColorDimmed = 'rgba(106, 106, 106, .7)';
-const btnTextColorDimmed = 'rgba(132, 132, 132, .7)';
-
-//
-
-// open modal on the "+"
+// Open modal on the "+"
 openModalBtn.addEventListener('click', openModal);
 
 function openModal() {
   modal.style.display = 'grid';
 }
 
-// close modal on the "x"
+// Close modal on the "x"
 closeModalIcon.addEventListener('click', closeModal);
 
 function closeModal() {
@@ -53,29 +37,34 @@ function closeModal() {
   notReadRadio.checked = true;
 }
 
-// object constructor function for creating book object
-function Book(title, author, pages, status) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.status = status;
+// Object constructor function for creating book object
+class Book {
+  constructor(title, author, pages, status) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.status = status;
+  }
 }
 
-// add book info from modal to object constructor and push to array.
-// finally, call displayBook function for visualizing library array.
+// Add book info from modal to object constructor and push to array.
+// Finally, call displayBook() function for visualizing library array.
 addBookBtn.addEventListener('click', addBookToLibrary);
 
-function addBookToLibrary() {
+function addBookToLibrary(e) {
+  if (e.target.matches('.add-book-modal-btn')) {
+    e.preventDefault();
+  }
   let title = titleInput.value;
   let author = authorInput.value;
   let pages = pagesInput.value;
   let status = '';
   if (notReadRadio.checked === true) {
-    status = 'Not read';
+    status = notReadStatus;
   } else if (readingRadio.checked === true) {
-    status = 'Reading';
-  } else {
-    status = 'Read';
+    status = readingStatus;
+  } else if (readRadio.checked === true) {
+    status = readStatus;
   }
   const newBook = new Book(title, author, pages, status);
   myLibrary.push(newBook);
@@ -84,7 +73,7 @@ function addBookToLibrary() {
   displayBook();
 }
 
-// remove all children of bookshelf before displaying to always have the books'
+// Remove all children of bookshelf before displaying to always have the books'
 // array position in sync with each book card's dataset.IndexNumber
 function removeAllChildren() {
   while (bookshelf.firstChild) {
@@ -117,40 +106,31 @@ function displayBook() {
       <p class="card-header card-header3">Pages</p>
       <p class="card-text card-text3">${myLibrary[i].pages}</p>
       <div class="book-status">
-        <button class="book-status-btn" id="not-read" type="button">
+        <button class="book-status-btn not-read" type="button">
           Not read
         </button>
-        <button class="book-status-btn" id="reading" type="button">
+        <button class="book-status-btn reading" type="button">
           Reading
         </button>
-        <button class="book-status-btn" id="read" type="button">
+        <button class="book-status-btn read" type="button">
           Read
         </button>
       </div>
     `;
     card.innerHTML += cardContent;
-    const bookNotReadBtn = document.querySelector('#not-read');
-    const bookReadingBtn = document.querySelector('#reading');
-    const bookReadBtn = document.querySelector('#read');
 
-    if (myLibrary[i].status === 'Not read') {
-      bookNotReadBtn.style.backgroundColor = RED;
-      bookNotReadBtn.style.color = btnTextColor;
-      bookNotReadBtn.style.borderColor = btnBorderColor;
-    } else if (myLibrary[i].status === 'Reading') {
-      bookReadingBtn.style.backgroundColor = YELLOW;
-      bookReadingBtn.style.color = btnTextColor;
-      bookReadingBtn.style.borderColor = btnBorderColor;
+    if (myLibrary[i].status === notReadStatus) {
+      card.querySelector('.not-read').setAttribute('data-status', 'red');
+    } else if (myLibrary[i].status === readingStatus) {
+      card.querySelector('.reading').setAttribute('data-status', 'yellow');
     } else {
-      bookReadBtn.style.backgroundColor = GREEN;
-      bookReadBtn.style.color = btnTextColor;
-      bookReadBtn.style.borderColor = btnBorderColor;
+      card.querySelector('.read').setAttribute('data-status', 'green');
     }
   }
 }
 
-// remove book from array by pressing delete button on the book card.
-// displayBook() is called again after deleting to keep book card's
+// Remove book from array by pressing delete button on the book card.
+// DisplayBook() is called again after deleting to keep book card's
 // dataset.IndexNumber in sync with the book's index in array.
 // Basically, the library is loaded again every time a book is deleted.
 bookshelf.addEventListener('click', removeBookFromLibrary);
@@ -175,33 +155,13 @@ bookshelf.addEventListener('click', setNewBookStatus);
 function setNewBookStatus(e) {
   if (e.target.matches('.book-status-btn')) {
     e.preventDefault();
-    resetBookBtnToDefault();
+    let buttonParent = e.target.parentNode;
+    let buttonGrandParent = buttonParent.parentNode;
+    let buttonGrandParentIndex = buttonGrandParent.dataset.indexNumber;
+    myLibrary[buttonGrandParentIndex].status = e.target.outerText;
 
-    const bookNotReadBtn = document.querySelector('#not-read');
-    const bookReadingBtn = document.querySelector('#reading');
-    const bookReadBtn = document.querySelector('#read');
-
-    if (e.target.matches('#not-read')) {
-      bookNotReadBtn.style.backgroundColor = RED;
-      bookNotReadBtn.style.color = btnTextColor;
-      bookNotReadBtn.style.borderColor = btnBorderColor;
-    } else if (e.target.matches('#reading')) {
-      bookReadingBtn.style.backgroundColor = YELLOW;
-      bookReadingBtn.style.color = btnTextColor;
-      bookReadingBtn.style.borderColor = btnBorderColor;
-    } else if (e.target.matches('#read')) {
-      bookReadBtn.style.backgroundColor = GREEN;
-      bookReadBtn.style.color = btnTextColor;
-      bookReadBtn.style.borderColor = btnBorderColor;
-    }
+    displayBook();
   }
 }
 
-function resetBookBtnToDefault() {
-  const bookAllStatus = document.querySelectorAll('.book-status-btn');
-  bookAllStatus.forEach((status) => {
-    status.style.backgroundColor = '';
-    status.style.color = '';
-    status.style.borderColor = '';
-  });
-}
+// END //
