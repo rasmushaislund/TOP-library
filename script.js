@@ -1,8 +1,8 @@
 // START //
 
-// GLobal DOM variables
+// Global DOM variables
 const openModalBtn = document.querySelector('.btn-add-book');
-const modal = document.querySelector('.modal');
+const dialog = document.querySelector('.modal');
 const closeModalIcon = document.querySelector('#modal-close');
 const titleInput = document.querySelector('#book-title');
 const authorInput = document.querySelector('#book-author');
@@ -23,18 +23,18 @@ const readStatus = 'Read';
 openModalBtn.addEventListener('click', openModal);
 
 function openModal() {
-  modal.style.display = 'grid';
+  dialog.showModal();
+  titleInput.value = '';
+  authorInput.value = '';
+  pagesInput.value = '';
+  notReadRadio.checked = true;
 }
 
 // Close modal on the "x"
 closeModalIcon.addEventListener('click', closeModal);
 
 function closeModal() {
-  modal.style.display = 'none';
-  titleInput.value = '';
-  authorInput.value = '';
-  pagesInput.value = '';
-  notReadRadio.checked = true;
+  dialog.close();
 }
 
 // Object constructor function for creating book object
@@ -49,28 +49,33 @@ class Book {
 
 // Add book info from modal to object constructor and push to array.
 // Finally, call displayBook() function for visualizing library array.
+
 addBookBtn.addEventListener('click', addBookToLibrary);
 
-function addBookToLibrary(e) {
-  if (e.target.matches('.add-book-modal-btn')) {
-    e.preventDefault();
+function addBookToLibrary() {
+  if (
+    !titleInput.checkValidity() ||
+    !authorInput.checkValidity() ||
+    !pagesInput.checkValidity()
+  ) {
+    return;
+  } else {
+    let title = titleInput.value;
+    let author = authorInput.value;
+    let pages = pagesInput.value;
+    let status = '';
+    if (notReadRadio.checked === true) {
+      status = notReadStatus;
+    } else if (readingRadio.checked === true) {
+      status = readingStatus;
+    } else if (readRadio.checked === true) {
+      status = readStatus;
+    }
+    const newBook = new Book(title, author, pages, status);
+    myLibrary.push(newBook);
   }
-  let title = titleInput.value;
-  let author = authorInput.value;
-  let pages = pagesInput.value;
-  let status = '';
-  if (notReadRadio.checked === true) {
-    status = notReadStatus;
-  } else if (readingRadio.checked === true) {
-    status = readingStatus;
-  } else if (readRadio.checked === true) {
-    status = readStatus;
-  }
-  const newBook = new Book(title, author, pages, status);
-  myLibrary.push(newBook);
-
-  closeModal();
   displayBook();
+  closeModal();
 }
 
 // Remove all children of bookshelf before displaying to always have the books'
