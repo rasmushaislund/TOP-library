@@ -34,27 +34,28 @@
         <p class="para-add-book">Add book to library</p>
       </div>
     </header>
-    <div class="modal" id="add-book-modal">
-      <img
-        class="card-close"
-        id="modal-close"
-        src="./img/close.svg"
-        alt="icon for closing book card"
-      />
-      <h3 class="modal-header">Enter book information</h3>
-      <form action="#" method="post">
+    <dialog class="modal">
+      <!-- <div class="modal" id="add-book-modal"> -->
+      <form action="#" method="dialog">
+        <img
+          class="card-close"
+          id="modal-close"
+          src="./img/close.svg"
+          alt="icon for closing book card"
+        />
+        <h3 class="modal-header">Enter book information</h3>
         <ul>
           <li>
             <label for="book-title">Title</label
-            ><input id="book-title" type="text" name="title" required />
+            ><input id="book-title" type="text" name="book_title" required />
           </li>
           <li>
             <label for="book-author">Author</label
-            ><input id="book-author" type="text" name="author" required />
+            ><input id="book-author" type="text" name="book_author" required />
           </li>
           <li>
             <label for="book-pages">Pages</label
-            ><input id="book-pages" type="number" name="pages" required />
+            ><input id="book-pages" type="number" name="book_pages" required />
           </li>
           <div class="book-status-container">
             <li>
@@ -80,11 +81,14 @@
             </li>
           </div>
           <li>
-            <button class="add-book-modal-btn">+ Add book</button>
+            <button type="submit" class="add-book-modal-btn" value="confirm">
+              + Add book
+            </button>
           </li>
         </ul>
       </form>
-    </div>
+    </dialog>
+    <!-- </div> -->
     <main>
       <div class="bookshelf"></div>
     </main>
